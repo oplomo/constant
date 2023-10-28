@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Local Storage Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        table {
+            margin: auto;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        const localStorage = window.localStorage;
+
+        const initialize = () => {
+            if (localStorage) {
+                const count = localStorage.getItem("visitCount") || 0;
+                const newCount = parseInt(count) + 1;
+                localStorage.setItem("visitCount", newCount);
+            }
+            updateDOM();
+        };
+
+        const updateDOM = () => {
+            const count = localStorage.getItem("visitCount") || 0;
+            const storedPreferences = localStorage.getItem("preference");
+            const preference = storedPreferences ? JSON.parse(storedPreferences) : {};
+            document.getElementById("visitCount").innerHTML = `Visit count: ${count}`;
+            document.body.style.background = preference.color || "white";
+        };
+
+        const setColorPreference = (color) => {
+            const preference = {
+                color
+            };
+            localStorage.setItem("preference", JSON.stringify(preference));
+            updateDOM();
+        };
+    </script>
+</head>
+
+<body onload="initialize()">
+    <h1>Welcome to Local Storage Demo</h1>
+    <table style="width:50%;margin:auto;">
+        <tr>
+            <th colspan="2">Personal Information</th>
+        </tr>
+        <tr>
+            <td colspan="2"><img src="images/WhatsApp Image 2023-10-27 at 23.19.39 (1).jpeg" alt="Your Passport Picture"
+                    style="width:150px;height:150px;border-radius: 50%;"></td>
+        </tr>
+        <tr>
+            <td>Name:</td>
+            <td>CONSTANT MUKHUYU</td>
+        </tr>
+        <tr>
+            <td>Registration Number:</td>
+            <td>SCT222-0159/2020</td>
+        </tr>
+    </table>
+    <p>Click the buttons to set your preferred background color:</p>
+    <button type="button" onclick="setColorPreference('aqua')">Aqua</button>
+    <button type="button" onclick="setColorPreference('green')">Green</button>
+    <button type="button" onclick="setColorPreference('maroon')">Maroon</button>
+    <div id="visitCount"></div>
+</body>
+
+</html>
